@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import { getItem } from "../utils/securestore";
 import Container from "../components/Container";
 import { useFocusEffect } from "@react-navigation/native";
+import packageJson from '../package.json'
 
 export default function HomeScreen({ navigation }) {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
@@ -23,6 +24,7 @@ export default function HomeScreen({ navigation }) {
         <View className="flex space-y-8">
           <Image className="w-[200px] h-[260px]" source={logo} />
           <View className="flex items-center">
+            <Text className="text-[#838383]">{packageJson.version}</Text>
             {!isInitialized && (
               <Button
                 label="Set up your wallet"
