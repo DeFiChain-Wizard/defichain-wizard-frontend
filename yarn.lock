@@ -1225,10 +1225,10 @@
     "@defichain/jellyfish-wallet" "2.54.1"
     "@defichain/whale-api-client" "2.54.1"
 
-"@defichainwizard/core@latest":
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/@defichainwizard/core/-/core-0.2.1.tgz"
-  integrity sha512-vbE9nzXwkwW+zNQm1X2TbJJtf1hEllv5oIClesgfvwuI3NGHuh9CjFPQEIFs77q7BVnbF0Tfh68i8YfBhBoKiQ==
+"@defichainwizard/core@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@defichainwizard/core/-/core-0.2.3.tgz#9c0bde662d39b658aa174f59bf3876918f35259b"
+  integrity sha512-LbKsPTQgxuNKGgesPQj9wdGcOAqRzONWdb8W+TQWH+kxPMKuYpRit+cK2idfjkC2Kr/FK9RelqMpEsGPcJyYJw==
   dependencies:
     "@defichain/jellyfish-wallet-encrypted" "2.54.1"
     "@defichain/jellyfish-wallet-mnemonic" "2.54.1"
@@ -1236,7 +1236,7 @@
     "@defichain/whale-api-wallet" "2.54.1"
     "@defichainwizard/custom-logging" latest
     "@defichainwizard/custom-transactions" latest
-    "@react-native-async-storage/async-storage" "^1.17.7"
+    "@react-native-async-storage/async-storage" "^1.17.10"
 
 "@defichainwizard/custom-logging@latest":
   version "0.3.9"
@@ -1852,7 +1852,7 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@react-native-async-storage/async-storage@^1.17.10", "@react-native-async-storage/async-storage@^1.17.7":
+"@react-native-async-storage/async-storage@^1.17.10":
   version "1.17.10"
   resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.17.10.tgz"
   integrity sha512-KrR021BmBLsA0TT1AAsfH16bHYy0MSbhdAeBAqpriak3GS1T2alFcdTUvn13p0ZW6FKRD6Bd3ryU2zhU/IYYJQ==

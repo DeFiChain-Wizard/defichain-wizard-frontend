@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@defichain/whale-api-client": "2.54.1",
-    "@defichainwizard/core": "latest",
+    "@defichainwizard/core": "0.2.3",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-navigation/bottom-tabs": "^6.3.3",
