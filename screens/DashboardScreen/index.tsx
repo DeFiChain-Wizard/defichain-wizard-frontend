@@ -177,7 +177,7 @@ const DashboardScreen = ({ navigation }) => {
             <Button
               label="Setup bot"
               className=""
-              onPress={() => navigation.navigate("RiskRatio")}
+              onPress={() => navigation.navigate("Collateral")}
             />
           </View>
         )}

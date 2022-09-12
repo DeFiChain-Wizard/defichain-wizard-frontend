@@ -1,15 +1,21 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
-import { getAddress, getConfig, getVault, saveConfig, saveVault } from "../../utils/securestore";
+import {
+  getAddress,
+  getConfig,
+  getVault,
+  saveConfig,
+  saveVault,
+} from "../../utils/securestore";
 import { CustomMessage, Wallet } from "@defichainwizard/core";
 import Container from "../../components/Container";
 import { truncate } from "../../utils/helper";
-import { Dropdown } from "react-native-element-dropdown";
 import { Formik } from "formik";
 import * as yup from "yup";
 import ValidationError from "../../components/ValidationError";
+import Dropdown from "../../components/Dropdown";
 
 // formik
 interface FormValues {
@@ -18,8 +24,7 @@ interface FormValues {
 
 // yup
 const formValidationSchema = yup.object().shape({
-  vault: yup.string()
-    .required("Required").nullable()
+  vault: yup.string().required("Vault is required").nullable(),
 });
 
 const VaultScreen = ({ navigation }) => {
@@ -38,13 +43,17 @@ const VaultScreen = ({ navigation }) => {
 
   const getVaults = async () => {
     const wallet = await Wallet.build(address);
-    let tmpVaults = []
+    let tmpVaults = [];
     await wallet
       .getVaults()
       .then((vaults) => {
         vaults.map((vault) =>
-          tmpVaults.push({ label: truncate(vault.vaultId, 22, "..."), value: vault.vaultId }))
-        setVaults(tmpVaults)
+          tmpVaults.push({
+            label: truncate(vault.vaultId, 16, "..."),
+            value: vault.vaultId,
+          })
+        );
+        setVaults(tmpVaults);
       })
       .catch((error) => alert(error));
   };
@@ -68,17 +77,21 @@ const VaultScreen = ({ navigation }) => {
   const handleNextButton = async (values: FormValues) => {
     const newConfig: CustomMessage = {
       ...config,
-      vaultId: values.vault
+      vaultId: values.vault,
     };
 
-    saveConfig(newConfig).then(() => { navigation.navigate("Confirm") })
+    saveConfig(newConfig).then(() => {
+      navigation.navigate("Confirm");
+    });
   };
 
   return (
     <Container>
       <Title title="Vault" />
 
-      <Text className="text-white text-2xl">Bot is running with vault</Text>
+      <Text className="text-white text-2xl mb-4">
+        Bot is running with vault
+      </Text>
       <Formik
         validationSchema={formValidationSchema}
         initialValues={initialValues}
@@ -94,47 +107,13 @@ const VaultScreen = ({ navigation }) => {
           <View>
             <Dropdown
               data={vaults}
-              renderItem={(item) => (
-                <Text
-                  className={`${values.vault === item.value ? "text-black" : "text-white"
-                    } p-4`}
-                >
-                  {item.label}
-                </Text>
-              )}
-              className="border-b border-b-white h-12 px-3 mt-2"
-              containerStyle={{
-                backgroundColor: "#000000",
-                borderWidth: 0,
-                marginTop: 4,
-              }}
-              search={true}
-              placeholderStyle={{
-                color: "#838383",
-                fontSize: 24,
-                fontWeight: "600",
-              }}
-              selectedTextStyle={{
-                color: "white",
-                fontSize: 24,
-                fontWeight: "600",
-              }}
-              inputSearchStyle={{ color: "white", borderWidth: 0 }}
-              activeColor="white"
-              maxHeight={350}
-              autoScroll={false}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? "Select Vault" : "..."}
-              searchPlaceholder="Search Vault..."
               value={values.vault}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => setFieldValue("vault", item.value)}
+              onChange={(item) => setFieldValue("vault", item.value)}
+              placeholder="Select Vault"
+              searchPlaceholder="Search Vault"
+              search={true}
             />
-            {errors.vault && (
-              <ValidationError error={errors.vault} />
-            )}
+            {errors.vault && <ValidationError error={errors.vault} />}
             <View className="flex flex-row justify-between mt-8">
               <Button
                 label="Back"

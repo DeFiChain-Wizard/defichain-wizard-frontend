@@ -1,4 +1,4 @@
-import { CustomMessage } from "@defichainwizard/core";
+import { CustomMessage } from "../types/CustomMessage";
 import * as SecureStore from "expo-secure-store";
 import { toObject, toString } from "./helper";
 
