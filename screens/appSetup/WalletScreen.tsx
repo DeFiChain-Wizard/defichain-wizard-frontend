@@ -16,7 +16,7 @@ interface FormValues {
 
 // yup
 const formValidationSchema = yup.object().shape({
-  address: yup.string().required("Required"),
+  address: yup.string().required("Wallet address is required"),
 });
 
 const WalletScreen = ({ navigation }) => {
@@ -57,7 +57,9 @@ const WalletScreen = ({ navigation }) => {
               className="text-center"
               hasError={errors.address && true}
             />
-            {errors && errors.address && <ValidationError error={errors.address} />}
+            {errors && errors.address && (
+              <ValidationError error={errors.address} />
+            )}
             <View className="flex flex-row justify-between mt-8">
               <Button
                 label="Back"

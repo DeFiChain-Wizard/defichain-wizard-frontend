@@ -1,5 +1,11 @@
-import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
-import React, { useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import React from "react";
 import Title from "../../../components/Title";
 import Button from "../../../components/Button";
 import { emptySeed } from "../../../constants/setup";
@@ -16,7 +22,7 @@ interface FormValues {
 
 // yup
 const formValidationSchema = yup.object().shape({
-  words: yup.array().of(yup.string().required())
+  words: yup.array().of(yup.string().required()),
 });
 
 const SeedScreen = ({ navigation }) => {
@@ -32,7 +38,6 @@ const SeedScreen = ({ navigation }) => {
     <Container>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-
       >
         <ScrollView
           className="flex-1"
@@ -60,10 +65,16 @@ const SeedScreen = ({ navigation }) => {
                   {[...Array(24)].map((_number, index) => (
                     <SeedTextInput
                       key={index}
-                      onChangeText={item => { setFieldValue(`words[${index}]`, item) }}
+                      onChangeText={(item) => {
+                        setFieldValue(`words[${index}]`, item);
+                      }}
                       defaultValue={values.words[index]}
                       wordIndex={index}
-                      hasError={errors && errors.words && errors.words[index] ? true : false}
+                      hasError={
+                        errors && errors.words && errors.words[index]
+                          ? true
+                          : false
+                      }
                     />
                   ))}
                 </View>

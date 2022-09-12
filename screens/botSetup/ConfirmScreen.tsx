@@ -2,11 +2,7 @@ import { View, Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
-import {
-  getAddress,
-  getConfig,
-  setItem,
-} from "../../utils/securestore";
+import { getAddress, getConfig, setItem } from "../../utils/securestore";
 import { Wallet, Seed } from "@defichainwizard/core";
 import PasswordModal from "../../components/PasswordModal";
 import LoadingIndicator from "../../components/LoadingIndicator";
@@ -29,7 +25,6 @@ const ConfirmScreen = ({ navigation }) => {
   const handleFinish = async () => {
     Keyboard.dismiss();
     if (address && password) {
-
       setModalVisible(false);
       setLoading(true);
       Keyboard.dismiss();
