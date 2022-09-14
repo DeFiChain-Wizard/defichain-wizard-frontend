@@ -7,11 +7,11 @@ type LoadingIndicatorProps = {
 };
 
 const LoadingIndicator = ({
-  text = "Send config...",
+  text = "Sending transaction...",
 }: LoadingIndicatorProps) => {
   return (
     <Modal visible={true}>
-      <View className="items-center justify-center space-y-3 ">
+      <View className="items-center justify-center space-y-3 mb-8">
         <ActivityIndicator size="large" animating={true} color="white" />
         <Text className="text-white ">{text}</Text>
       </View>
