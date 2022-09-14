@@ -1,6 +1,6 @@
 {
   "name": "defichain-wizard",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@defichain/whale-api-client": "2.54.1",
-    "@defichainwizard/core": "0.2.3",
+    "@defichainwizard/core": "0.2.4",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-navigation/bottom-tabs": "^6.3.3",
