@@ -5,11 +5,11 @@ import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import { getConfig, saveConfig } from "../../utils/securestore";
 import { defaultConfig } from "../../constants/config";
-import { CustomMessage } from "@defichainwizard/core";
 import Container from "../../components/Container";
 import { Formik } from "formik";
 import * as yup from "yup";
 import ValidationError from "../../components/ValidationError";
+import { CustomMessage } from "../../types/CustomMessage";
 
 // formik
 interface FormValues {
@@ -19,22 +19,21 @@ interface FormValues {
 
 // yup
 const formValidationSchema = yup.object().shape({
-  keepMinRatio: yup.number()
+  keepMinRatio: yup
+    .number()
     .positive()
-    .typeError('Only numbers with decimal points allowed')
+    .typeError("Only numbers with decimal points allowed")
     .min(151, "Minimum value is 151")
-    .required("Required"),
-  keepMaxRatio: yup.number()
+    .required("Min ratio is required"),
+  keepMaxRatio: yup
+    .number()
     .positive()
-    .typeError('Only numbers with decimal points allowed')
-    .moreThan(
-      yup.ref("keepMinRatio"),
-      "Must be more than Minimum"
-    )
-    .required("Required")
+    .typeError("Only numbers with decimal points allowed")
+    .moreThan(yup.ref("keepMinRatio"), "Must be more than Minimum")
+    .required("Max ratio is required"),
 });
 
-const RiskRatioScreen = ({ navigation }) => {
+const CollateralRatioScreen = ({ navigation }) => {
   const [keepMinRatio, setKeepMinRatio] = useState();
   const [keepMaxRatio, setKeepMaxRatio] = useState();
   const [config, setConfig] = useState<CustomMessage>();
@@ -70,7 +69,7 @@ const RiskRatioScreen = ({ navigation }) => {
 
   return (
     <Container>
-      <Title title="Risk Ratio" />
+      <Title title="Collateral ratio" />
       <Formik
         validationSchema={formValidationSchema}
         initialValues={initialValues}
@@ -92,15 +91,16 @@ const RiskRatioScreen = ({ navigation }) => {
                   className="flex-1 w-full text-2xl font-semibold"
                   hasError={errors.keepMinRatio && true}
                   value={values.keepMinRatio}
-                  // onChangeText={setKeepMinRatio}
                   onChangeText={handleChange("keepMinRatio")}
                   textAlign="center"
                   contextMenuHidden={true}
                 />
-                {errors.keepMinRatio && (
+                <Text className="text-white text-2xl absolute right-0 top-2">
+                  %
+                </Text>
+                {!!errors.keepMinRatio && (
                   <ValidationError error={errors.keepMinRatio} />
                 )}
-                <Text className="text-white text-2xl absolute right-0">%</Text>
               </View>
               <Text className="text-white text-2xl">and</Text>
               <View className="flex">
@@ -113,10 +113,12 @@ const RiskRatioScreen = ({ navigation }) => {
                   textAlign="center"
                   contextMenuHidden={true}
                 />
-                {errors.keepMaxRatio && (
+                <Text className="text-white text-2xl absolute right-0 top-2">
+                  %
+                </Text>
+                {!!errors.keepMaxRatio && (
                   <ValidationError error={errors.keepMaxRatio} />
                 )}
-                <Text className="text-white text-2xl absolute right-0">%</Text>
               </View>
             </View>
             <View className="flex flex-row justify-between mt-8">
@@ -125,7 +127,6 @@ const RiskRatioScreen = ({ navigation }) => {
                 type="secondary"
                 onPress={() => navigation.goBack()}
               />
-              {/* <Button label="Next step" onPress={() => handleNext()} /> */}
               <Button label="Next step" onPress={handleSubmit} />
             </View>
           </View>
@@ -135,4 +136,4 @@ const RiskRatioScreen = ({ navigation }) => {
   );
 };
 
-export default RiskRatioScreen;
+export default CollateralRatioScreen;

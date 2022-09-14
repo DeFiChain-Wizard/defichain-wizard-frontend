@@ -1,9 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
-import Card from "./Card";
-import { CustomMessage } from "@defichainwizard/core";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { CustomMessage } from "../types/CustomMessage";
 
 type ConfigSummaryProps = {
   config: CustomMessage;
@@ -23,6 +21,7 @@ const Threshold = ({ threshold, token }) => {
 
 const ConfigSummary = ({ config, ...rest }: ConfigSummaryProps) => {
   const { rules, poolpairs, compounding } = config;
+  const { mode } = compounding;
   return (
     <View className="space-y-12" {...rest}>
       <View className="space-y-1.5">
@@ -33,7 +32,7 @@ const ConfigSummary = ({ config, ...rest }: ConfigSummaryProps) => {
             color="#838383"
           />
           <Text className="text-xs font-semibold text-[#838383] uppercase">
-            Risk Ratio
+            Collateral Ratio
           </Text>
         </View>
         <Text className="text-white text-3xl">
@@ -44,7 +43,7 @@ const ConfigSummary = ({ config, ...rest }: ConfigSummaryProps) => {
         <View className="flex flex-row items-center space-x-1.5">
           <MaterialCommunityIcons name="bitcoin" size={24} color="#838383" />
           <Text className="text-xs font-semibold text-[#838383] uppercase">
-            Token
+            Minted token
           </Text>
         </View>
         <Text className="text-white text-3xl">{Object.keys(poolpairs)[0]}</Text>
@@ -53,13 +52,31 @@ const ConfigSummary = ({ config, ...rest }: ConfigSummaryProps) => {
         <View className="flex flex-row items-center space-x-1.5">
           <MaterialCommunityIcons name="infinity" size={24} color="#838383" />
           <Text className="text-xs font-semibold text-[#838383] uppercase">
-            Reinvest Threshold
+            Compounding
           </Text>
         </View>
-        <Threshold
-          threshold={compounding.threshold}
-          token={compounding.token}
-        />
+
+        <View>
+          {mode === 0 && <Text className="text-white text-2xl">Disabled</Text>}
+          {mode === 1 && (
+            <Text className="text-white text-2xl">
+              Every {compounding.threshold} DFI will added as collateral to
+              vault.
+            </Text>
+          )}
+          {mode === 2 && (
+            <Text className="text-white text-2xl">
+              Every {compounding.threshold} {compounding.token} will swapped
+              into {compounding.token}.
+            </Text>
+          )}
+          {mode === 3 && (
+            <Text className="text-white text-2xl">
+              Every {compounding.threshold} {compounding.token} will swapped
+              into {compounding.token} and added to vault.
+            </Text>
+          )}
+        </View>
       </View>
     </View>
   );
