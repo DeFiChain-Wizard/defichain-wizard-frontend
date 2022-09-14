@@ -113,7 +113,7 @@ const VaultScreen = ({ navigation }) => {
               searchPlaceholder="Search Vault"
               search={true}
             />
-            {errors.vault && <ValidationError error={errors.vault} />}
+            {!!errors.vault && <ValidationError error={errors.vault} />}
             <View className="flex flex-row justify-between mt-8">
               <Button
                 label="Back"

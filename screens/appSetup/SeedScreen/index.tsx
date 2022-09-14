@@ -78,7 +78,7 @@ const SeedScreen = ({ navigation }) => {
                     />
                   ))}
                 </View>
-                {errors.words && (
+                {!!errors.words && (
                   <ValidationError error="All fields must be filled" />
                 )}
                 <View className="flex flex-row justify-between mt-8 mb-16">

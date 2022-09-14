@@ -98,7 +98,7 @@ const CollateralRatioScreen = ({ navigation }) => {
                 <Text className="text-white text-2xl absolute right-0 top-2">
                   %
                 </Text>
-                {errors.keepMinRatio && (
+                {!!errors.keepMinRatio && (
                   <ValidationError error={errors.keepMinRatio} />
                 )}
               </View>
@@ -116,7 +116,7 @@ const CollateralRatioScreen = ({ navigation }) => {
                 <Text className="text-white text-2xl absolute right-0 top-2">
                   %
                 </Text>
-                {errors.keepMaxRatio && (
+                {!!errors.keepMaxRatio && (
                   <ValidationError error={errors.keepMaxRatio} />
                 )}
               </View>

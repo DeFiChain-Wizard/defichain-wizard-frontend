@@ -83,7 +83,7 @@ const PasswordScreen = ({ navigation, route }) => {
                 hasError={errors.password && true}
               />
               <Text>
-                {errors && errors.password && (
+                {!!errors && !!errors.password && (
                   <ValidationError error={errors.password} />
                 )}{" "}
               </Text>
@@ -97,7 +97,7 @@ const PasswordScreen = ({ navigation, route }) => {
                 hasError={errors.confirmPassword && true}
               />
               <Text>
-                {errors && errors.confirmPassword && (
+                {!!errors && !!errors.confirmPassword && (
                   <ValidationError error={errors.confirmPassword} />
                 )}
               </Text>

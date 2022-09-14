@@ -23,7 +23,7 @@ const SettingsScreen = ({ navigation }) => {
     <Container>
       <Title title="Settings" />
       {/* collateral ratio ratio */}
-      {config && <ConfigSummary config={config} />}
+      {!!config && <ConfigSummary config={config} />}
       <View className="flex-1 justify-center items-center mt-4">
         {!config && (
           <View className="flex-1 items-center justify-end mb-40 space-y-4">
@@ -34,7 +34,7 @@ const SettingsScreen = ({ navigation }) => {
             />
           </View>
         )}
-        {config && (
+        {!!config && (
           <View className="flex-1 items-center justify-end mb-40 space-y-4">
             <TouchableOpacity
               className="flex justify-center border-2 border-white px-5 py-3 rounded-full"

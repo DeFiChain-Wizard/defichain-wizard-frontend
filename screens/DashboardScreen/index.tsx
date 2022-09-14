@@ -149,7 +149,7 @@ const DashboardScreen = ({ navigation }) => {
         </ScreenItem>
 
         {/* bot status */}
-        {config && (
+        {!!config && (
           <ScreenItem
             label="Bot Status"
             icon="toggle-switch"

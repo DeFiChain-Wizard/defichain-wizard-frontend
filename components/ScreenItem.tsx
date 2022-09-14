@@ -20,7 +20,7 @@ const ScreenItem = ({
   return (
     <View className="space-y-1.5" {...rest}>
       <View className="flex flex-row items-center space-x-1.5">
-        {icon && (
+        {!!icon && (
           <MaterialCommunityIcons name={icon} size={24} color={iconColor} />
         )}
         <View className="flex-1">
