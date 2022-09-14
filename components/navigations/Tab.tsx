@@ -14,7 +14,7 @@ const Tab = ({ active, tab, onPress, icon }: any) => {
       } justify-center w-14 h-14 rounded-full`}
       style={{ backgroundColor }}
     >
-      {icon && <AntDesign name={icon} size={24} color={iconColor} />}
+      {!!icon && <AntDesign name={icon} size={24} color={iconColor} />}
     </TouchableOpacity>
   );
 };

@@ -19,16 +19,20 @@ interface FormValues {
 
 // yup
 const formValidationSchema = yup.object().shape({
-  password: yup.string().min(6, "Select at least 6 characters").required("Required"),
-  confirmPassword: yup.string()
+  password: yup
+    .string()
+    .min(6, "Select at least 6 characters")
+    .required("Password is required"),
+  confirmPassword: yup
+    .string()
     .required("Please confirm your password")
-    .oneOf([yup.ref("password")], "Passwords do not match")
+    .oneOf([yup.ref("password")], "Passwords do not match"),
 });
 
 const PasswordScreen = ({ navigation, route }) => {
   const { seedPhraseWords } = route.params;
   const [loading, setLoading] = useState(false);
-  const initialValues: FormValues = { password: '', confirmPassword: '' };
+  const initialValues: FormValues = { password: "", confirmPassword: "" };
 
   const handleNextButton = async (values: FormValues) => {
     setLoading(true);
@@ -63,8 +67,8 @@ const PasswordScreen = ({ navigation, route }) => {
           <View className="flex w-full mt-5">
             <View className="flex space-y-4">
               <Text className="text-white text-sm text-center">
-                The password is needed to encrypt your seed and send transactions to
-                your bot.
+                The password is needed to encrypt your seed and send
+                transactions to your bot.
                 {"\n"}
                 {"\n"}
                 The password itself will not be stored.
@@ -78,7 +82,11 @@ const PasswordScreen = ({ navigation, route }) => {
                 className="text-center"
                 hasError={errors.password && true}
               />
-              <Text>{errors && errors.password && <ValidationError error={errors.password} />} </Text>
+              <Text>
+                {!!errors && !!errors.password && (
+                  <ValidationError error={errors.password} />
+                )}{" "}
+              </Text>
               <TextInput
                 value={values.confirmPassword}
                 onChangeText={handleChange("confirmPassword")}
@@ -88,7 +96,11 @@ const PasswordScreen = ({ navigation, route }) => {
                 className="text-center"
                 hasError={errors.confirmPassword && true}
               />
-              <Text>{errors && errors.confirmPassword && <ValidationError error={errors.confirmPassword} />}</Text>
+              <Text>
+                {!!errors && !!errors.confirmPassword && (
+                  <ValidationError error={errors.confirmPassword} />
+                )}
+              </Text>
             </View>
             <View className="flex flex-row justify-between mt-8">
               <Button

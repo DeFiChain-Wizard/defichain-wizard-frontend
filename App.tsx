@@ -7,16 +7,16 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBar from "./components/navigations/TabBar";
 import { WhaleProvider } from "./context/WhaleContext";
 import DashboardScreen from "./screens/DashboardScreen";
-import SettingsScreen from "./screens/botConfig/SettingsScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 import InfoScreen from "./screens/InfoScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import WalletScreen from "./screens/appSetup/WalletScreen";
 import SeedScreen from "./screens/appSetup/SeedScreen";
 import PasswordScreen from "./screens/appSetup/PasswordScreen";
-import RiskRatioScreen from "./screens/botSetup/RiskRatioScreen";
+import CollateralRatioScreen from "./screens/botSetup/CollateralRatioScreen";
 import LiquidityPoolScreen from "./screens/botSetup/LiquidityPoolScreen";
-import ReinvestThresholdScreen from "./screens/botSetup/ReinvestThresholdScreen";
+import CompoundingScreen from "./screens/botSetup/CompoundingScreen";
 import ConfirmScreen from "./screens/botSetup/ConfirmScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -64,9 +64,8 @@ function HomeStack() {
 }
 
 export default function App() {
-  
   const onCodePushStateChanged = async (state: codePush.SyncStatus) => {
-    console.log('[CodePushStateChangeEvent]', state)
+    console.log("[CodePushStateChangeEvent]", state);
     if (state === codePush.SyncStatus.UPDATE_INSTALLED) {
       codePush.restartApp(true);
     }
@@ -95,17 +94,17 @@ export default function App() {
               <Stack.Screen name="Wallet" component={WalletScreen} />
               <Stack.Screen name="Seed" component={SeedScreen} />
               <Stack.Screen name="Password" component={PasswordScreen} />
-              <Stack.Screen name="RiskRatio" component={RiskRatioScreen} />
+              <Stack.Screen
+                name="Collateral"
+                component={CollateralRatioScreen}
+              />
               <Stack.Screen name="Vault" component={VaultScreen} />
               <Stack.Screen name="Confirm" component={ConfirmScreen} />
               <Stack.Screen
                 name="LiquidityPool"
                 component={LiquidityPoolScreen}
               />
-              <Stack.Screen
-                name="ReinvestThreshold"
-                component={ReinvestThresholdScreen}
-              />
+              <Stack.Screen name="Compounding" component={CompoundingScreen} />
               <Stack.Screen name="Internal" component={HomeStack} />
             </Stack.Navigator>
             <StatusBar style="light" />
