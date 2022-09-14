@@ -57,7 +57,7 @@ const WalletScreen = ({ navigation }) => {
               className="text-center"
               hasError={errors.address && true}
             />
-            {errors && errors.address && (
+            {!!errors && !!errors.address && (
               <ValidationError error={errors.address} />
             )}
             <View className="flex flex-row justify-between mt-8">

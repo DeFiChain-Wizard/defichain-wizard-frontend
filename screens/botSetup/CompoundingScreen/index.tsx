@@ -242,13 +242,13 @@ const CompoundingScreen = ({ navigation }) => {
 
             {/* errors */}
             <View className="mt-2">
-              {errors && errors.selectedCompoundingToken && (
+              {!!errors && !!errors.selectedCompoundingToken && (
                 <ValidationError error={errors.selectedCompoundingToken} />
               )}
-              {errors && errors.selectedLoanToken && (
+              {!!errors && !!errors.selectedLoanToken && (
                 <ValidationError error={errors.selectedLoanToken} />
               )}
-              {errors && errors.reinvestThreshold && (
+              {!!errors && !!errors.reinvestThreshold && (
                 <ValidationError error={errors.reinvestThreshold} />
               )}
             </View>

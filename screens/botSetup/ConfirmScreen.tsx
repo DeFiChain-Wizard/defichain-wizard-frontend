@@ -47,7 +47,7 @@ const ConfirmScreen = ({ navigation }) => {
   return (
     <Container>
       <Title title="Confirm configuration" />
-      {config && <ConfigSummary config={config} />}
+      {!!config && <ConfigSummary config={config} />}
       <View className="flex flex-row justify-between mt-8">
         <Button
           label="Back"

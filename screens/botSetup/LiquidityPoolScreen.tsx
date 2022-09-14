@@ -91,7 +91,7 @@ const LiquidityPoolScreen = ({ navigation }) => {
               search={true}
               hasError={errors.selectedLoanToken && true}
             />
-            {errors.selectedLoanToken && (
+            {!!errors.selectedLoanToken && (
               <ValidationError error={errors.selectedLoanToken} />
             )}
             <View className="flex flex-row justify-between mt-8">
