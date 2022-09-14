@@ -13,7 +13,7 @@ const RadioButtonItem = ({ value }: RadioButtonItemProps) => {
         const checked =
           isChecked({
             contextValue: context?.value,
-            value,
+            value: value,
           }) === "checked";
         return (
           <View className="flex flex-row">

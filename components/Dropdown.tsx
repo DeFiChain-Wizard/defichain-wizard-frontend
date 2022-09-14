@@ -43,9 +43,9 @@ const Dropdown = ({
       className={`border-b ${
         hasError
           ? "border-b-[#F06666]"
-          : active
-          ? "border-b-white"
-          : "border-b-white/25"
+          : ( active
+              ? "border-b-white"
+              : "border-b-white/25")
       } h-12 px-3`}
       containerStyle={{
         backgroundColor: "#000000",
