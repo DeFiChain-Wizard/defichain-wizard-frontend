@@ -1,13 +1,9 @@
 import { View, Text, ScrollView } from "react-native";
 import React, { useCallback, useState } from "react";
-import {
-  deleteItem,
-  getAddress,
-  getConfig,
-} from "../utils/securestore";
+import { deleteItem, getAddress, getConfig } from "../utils/securestore";
 import Title from "../components/Title";
 import Button from "../components/Button";
-import { CustomMessage } from "@defichainwizard/core";
+import { CustomMessage } from "../types/CustomMessage";
 import { useFocusEffect } from "@react-navigation/native";
 import Container from "../components/Container";
 
@@ -46,16 +42,18 @@ const InfoScreen = ({ navigation }) => {
         </Text>
         <ScrollView className="space-y-4">
           <Text
-            className={`text-[#838383] text-md ${!config ? "text-center" : "text-start"
-              }`}
+            className={`text-[#838383] text-md ${
+              !config ? "text-center" : "text-start"
+            }`}
           >
             {config
               ? JSON.stringify({ customTransaction: config }, null, 2)
               : "No config in storage"}
           </Text>
           <Text
-            className={`text-[#838383] text-md ${!address ? "text-center" : "text-start"
-              }`}
+            className={`text-[#838383] text-md ${
+              !address ? "text-center" : "text-start"
+            }`}
           >
             {address
               ? JSON.stringify({ address: address }, null, 2)

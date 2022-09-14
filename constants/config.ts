@@ -1,10 +1,10 @@
-import { CustomMessage } from "@defichainwizard/core";
+import { CustomMessage } from "../types/CustomMessage";
 
 export const defaultConfig: CustomMessage = {
   compounding: {
-    mode: 1,
-    threshold: null,
-    token: "DFI",
+    mode: 0,
+    threshold: 0,
+    token: null,
   },
   pause: 0,
   poolpairs: {},
