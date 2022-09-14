@@ -151,7 +151,7 @@ const CompoundingScreen = ({ navigation }) => {
                   onChangeText={handleChange("reinvestThreshold")}
                   keyboardType="numeric"
                   contextMenuHidden={true}
-                  hasError={errors.reinvestThreshold && true}
+                  hasError={!!errors.reinvestThreshold}
                   active={values.mode !== "0"}
                 />
                 <ModeDescription
