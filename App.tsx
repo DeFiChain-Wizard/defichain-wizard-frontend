@@ -22,7 +22,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import VaultScreen from "./screens/botSetup/VaultScreen";
 
-// import codePush from "react-native-code-push";
+import codePush from "react-native-code-push";
 // import { CODE_PUSH_KEY } from "react-native-dotenv";
 // import { Alert } from "react-native";
 
@@ -64,7 +64,7 @@ function HomeStack() {
   );
 }
 
-export default function App() {
+const App = () => {
   // const onCodePushStateChanged = async (state: codePush.SyncStatus) => {
   //   switch(state) {
   //     case codePush.SyncStatus.CHECKING_FOR_UPDATE:
@@ -144,3 +144,10 @@ export default function App() {
     </WhaleProvider>
   );
 }
+
+const codePushOptions = codePush({
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESTART,
+  mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
+})(App)
+export default codePush(codePushOptions)(App)

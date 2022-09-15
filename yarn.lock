@@ -1225,10 +1225,10 @@
     "@defichain/jellyfish-wallet" "2.54.1"
     "@defichain/whale-api-client" "2.54.1"
 
-"@defichainwizard/core@0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@defichainwizard/core/-/core-0.2.3.tgz#9c0bde662d39b658aa174f59bf3876918f35259b"
-  integrity sha512-LbKsPTQgxuNKGgesPQj9wdGcOAqRzONWdb8W+TQWH+kxPMKuYpRit+cK2idfjkC2Kr/FK9RelqMpEsGPcJyYJw==
+"@defichainwizard/core@0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@defichainwizard/core/-/core-0.2.4.tgz#3ac6e93ce2cc8529fe4f4057b269a1881e978688"
+  integrity sha512-0mken9YDnTTuIsca+zk3UddMmn8ULcmVt8AzKZQBXnT6beGNLYCXXo5zf7mgJ4RqCty8+xY/E1Exh13NZhui/Q==
   dependencies:
     "@defichain/jellyfish-wallet-encrypted" "2.54.1"
     "@defichain/jellyfish-wallet-mnemonic" "2.54.1"
@@ -1339,14 +1339,6 @@
     url-join "4.0.0"
     uuid "^3.4.0"
     wrap-ansi "^7.0.0"
-
-"@expo/code-signing-certificates@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/@expo/code-signing-certificates/-/code-signing-certificates-0.0.1.tgz"
-  integrity sha512-m1AVZGsMgpXRLULQ331AZdxh1D64Qbcb6z7A19JmXUrCQu3591zPn1wjR6J63/Dzi00m5TR5w+9GvqnFY5X//Q==
-  dependencies:
-    node-forge "^1.2.1"
-    nullthrows "^1.1.1"
 
 "@expo/code-signing-certificates@^0.0.2":
   version "0.0.2"
@@ -4413,11 +4405,6 @@ expo-constants@~13.1.1:
     "@expo/config" "^6.0.14"
     uuid "^3.3.2"
 
-expo-eas-client@~0.2.0:
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/expo-eas-client/-/expo-eas-client-0.2.1.tgz"
-  integrity sha512-XlZr57iHxqo3+AT2TtcRipMuQEyXnTUAv7H5+KVvj6EEJEAHmwc9wZZdKzqf0MbVRUTOawZsl/b2iYanf+kQsQ==
-
 expo-error-recovery@~3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/expo-error-recovery/-/expo-error-recovery-3.1.0.tgz"
@@ -4438,11 +4425,6 @@ expo-font@~10.1.0:
   dependencies:
     fontfaceobserver "^2.1.0"
 
-expo-json-utils@~0.3.0:
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/expo-json-utils/-/expo-json-utils-0.3.0.tgz"
-  integrity sha512-ceo0pWFJqRAsNjZWX3rVDhy+NDzmrBNFOdvW+HE4EHqlt+OEUu9INIYKO8fU+g3ifI0VcKqHfvvj5wKsSpvPBw==
-
 expo-keep-awake@~10.1.1:
   version "10.1.1"
   resolved "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-10.1.1.tgz"
@@ -4452,13 +4434,6 @@ expo-linear-gradient@~11.3.0:
   version "11.3.0"
   resolved "https://registry.npmjs.org/expo-linear-gradient/-/expo-linear-gradient-11.3.0.tgz"
   integrity sha512-gm0cULqE5cTP39HZHi+eCGgQ2qMcwym92DwSzRpA5nA4Ah5oKksV+PwD7zzo6YJt3X3lgqrTYEqts9VQISCTgw==
-
-expo-manifests@~0.3.0:
-  version "0.3.1"
-  resolved "https://registry.npmjs.org/expo-manifests/-/expo-manifests-0.3.1.tgz"
-  integrity sha512-zv2a4pzhbvxVjrTO4XEiP5THt4RwtxyJjfixFhDNfHtDQR7fS4h9sZSGX9ind+IS5SQJQ2ykfVAi8xnwP6zHaw==
-  dependencies:
-    expo-json-utils "~0.3.0"
 
 expo-modules-autolinking@0.8.1:
   version "0.8.1"
@@ -4507,34 +4482,6 @@ expo-status-bar@~1.3.0:
   version "1.3.0"
   resolved "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.3.0.tgz"
   integrity sha512-UszYUsT8A8jSUebrXht095Iwv5VIdg61LPuyNNoC5gFP0E9G+8LgX68deqR4zhJOlbsgSH2cixxKhrGW+1HPZg==
-
-expo-structured-headers@~2.2.0:
-  version "2.2.1"
-  resolved "https://registry.npmjs.org/expo-structured-headers/-/expo-structured-headers-2.2.1.tgz"
-  integrity sha512-nY6GuvoS/U5XdhfBNmvXGRoGzIXywXpSZs2wdiP+FbS79P9UWyEqzgARrBTF+6pQxUVMs6/vdffxRpwhjwYPug==
-
-expo-updates-interface@~0.6.0:
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-0.6.0.tgz"
-  integrity sha512-oQcGTsE8mSkSxENPlWjZPGoJpt3RFDNPuO5d8shBDxBb4ZNH/W2ojavSFQMaLbNMoS0bYQQhzbRNEIBd306QMg==
-
-expo-updates@~0.13.4:
-  version "0.13.4"
-  resolved "https://registry.npmjs.org/expo-updates/-/expo-updates-0.13.4.tgz"
-  integrity sha512-GrA88YT2WN0rY4+uDHm7Yb3Gt7hAtVkaGq3ANIDbtIDVarvnHJ4d7cSp0U+FAyhtJCOPRo0QjF/Gy8rpP/G4yw==
-  dependencies:
-    "@expo/code-signing-certificates" "0.0.1"
-    "@expo/config" "~6.0.23"
-    "@expo/config-plugins" "^4.0.14"
-    "@expo/metro-config" "0.3.19"
-    arg "4.1.0"
-    expo-eas-client "~0.2.0"
-    expo-manifests "~0.3.0"
-    expo-structured-headers "~2.2.0"
-    expo-updates-interface "~0.6.0"
-    fbemitter "^3.0.0"
-    resolve-from "^5.0.0"
-    uuid "^3.4.0"
 
 expo@~45.0.0:
   version "45.0.8"
