@@ -24,6 +24,7 @@ import VaultScreen from "./screens/botSetup/VaultScreen";
 
 import codePush from "react-native-code-push";
 import { CODE_PUSH_KEY } from "react-native-dotenv";
+import { Alert } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -66,18 +67,31 @@ function HomeStack() {
 export default function App() {
   const onCodePushStateChanged = async (state: codePush.SyncStatus) => {
     console.log("[CodePushStateChangeEvent]", state);
+    Alert.alert(
+      "Codepush",
+      state.toString(),
+    );
     if (state === codePush.SyncStatus.UPDATE_INSTALLED) {
       codePush.restartApp(true);
     }
   };
 
   useEffect(() => {
-    codePush.notifyAppReady();
-    codePush.sync(
-      { deploymentKey: CODE_PUSH_KEY },
-      onCodePushStateChanged,
-      () => {}
-    );
+    codePush.notifyAppReady().then((status) => {
+      Alert.alert(
+        "notifyAppReady",
+        JSON.stringify(status),
+      );
+
+      codePush.sync(
+        { 
+          deploymentKey: CODE_PUSH_KEY,
+          installMode: codePush.InstallMode.IMMEDIATE
+        },
+        onCodePushStateChanged,
+        () => {}
+      );
+    });
   }, []);
 
   return (
