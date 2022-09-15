@@ -4,7 +4,9 @@ import codePush from "react-native-code-push";
 import App from './App';
 
 const CodePushedApp = codePush({
-  checkFrequency: codePush.CheckFrequency.MANUAL,
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME,
+  mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
 })(App)
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);

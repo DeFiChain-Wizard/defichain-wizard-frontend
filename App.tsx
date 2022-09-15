@@ -22,9 +22,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import VaultScreen from "./screens/botSetup/VaultScreen";
 
-import codePush from "react-native-code-push";
-import { CODE_PUSH_KEY } from "react-native-dotenv";
-import { Alert } from "react-native";
+// import codePush from "react-native-code-push";
+// import { CODE_PUSH_KEY } from "react-native-dotenv";
+// import { Alert } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -65,52 +65,50 @@ function HomeStack() {
 }
 
 export default function App() {
-  const onCodePushStateChanged = async (state: codePush.SyncStatus) => {
-    console.log("[CodePushStateChangeEvent]", state);
+  // const onCodePushStateChanged = async (state: codePush.SyncStatus) => {
+  //   switch(state) {
+  //     case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+  //       Alert.alert( "Codepush", "Checking for update.");
+  //       break;
+  //     case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+  //       Alert.alert( "Codepush", "Downloading package.");
+  //       break;
+  //     case codePush.SyncStatus.AWAITING_USER_ACTION:
+  //       Alert.alert( "Codepush", "Awaiting user action.");
+  //       break;
+  //     case codePush.SyncStatus.INSTALLING_UPDATE:
+  //       Alert.alert( "Codepush", "Installing update.");
+  //       break;
+  //     case codePush.SyncStatus.UP_TO_DATE:
+  //       Alert.alert( "Codepush", "App up to date.");
+  //       break;
+  //     case codePush.SyncStatus.UPDATE_IGNORED:
+  //       Alert.alert( "Codepush", "Update cancelled by user.");
+  //       break;
+  //     case codePush.SyncStatus.UPDATE_INSTALLED:
+  //       Alert.alert( "Codepush", "Update installed and will be applied on restart.");
+  //       break;
+  //     case codePush.SyncStatus.UNKNOWN_ERROR:
+  //       Alert.alert( "Codepush", "An unknown error occurred.");
+  //       break;
+  //   }
+  //   if (state === codePush.SyncStatus.UPDATE_INSTALLED) {
+  //     codePush.restartApp(true);
+  //   }
+  // };
 
-    switch(state) {
-      case codePush.SyncStatus.CHECKING_FOR_UPDATE:
-        Alert.alert( "Codepush", "Checking for update.");
-        break;
-      case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-        Alert.alert( "Codepush", "Downloading package.");
-        break;
-      case codePush.SyncStatus.AWAITING_USER_ACTION:
-        Alert.alert( "Codepush", "Awaiting user action.");
-        break;
-      case codePush.SyncStatus.INSTALLING_UPDATE:
-        Alert.alert( "Codepush", "Installing update.");
-        break;
-      case codePush.SyncStatus.UP_TO_DATE:
-        Alert.alert( "Codepush", "App up to date.");
-        break;
-      case codePush.SyncStatus.UPDATE_IGNORED:
-        Alert.alert( "Codepush", "Update cancelled by user.");
-        break;
-      case codePush.SyncStatus.UPDATE_INSTALLED:
-        Alert.alert( "Codepush", "Update installed and will be applied on restart.");
-        break;
-      case codePush.SyncStatus.UNKNOWN_ERROR:
-        Alert.alert( "Codepush", "An unknown error occurred.");
-        break;
-    }
-    if (state === codePush.SyncStatus.UPDATE_INSTALLED) {
-      codePush.restartApp(true);
-    }
-  };
+  // useEffect(() => {
+  //   codePush.notifyAppReady()
 
-  useEffect(() => {
-    codePush.notifyAppReady()
-
-    codePush.sync(
-      { 
-        deploymentKey: CODE_PUSH_KEY,
-        installMode: codePush.InstallMode.IMMEDIATE
-      },
-      onCodePushStateChanged,
-      () => {}
-    );
-  }, []);
+  //   codePush.sync(
+  //     { 
+  //       deploymentKey: CODE_PUSH_KEY,
+  //       installMode: codePush.InstallMode.IMMEDIATE
+  //     },
+  //     onCodePushStateChanged,
+  //     () => {}
+  //   );
+  // }, []);
 
   return (
     <WhaleProvider>
