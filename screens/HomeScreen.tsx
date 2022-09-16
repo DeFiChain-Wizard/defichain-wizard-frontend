@@ -5,15 +5,22 @@ import Button from "../components/Button";
 import { getItem } from "../utils/securestore";
 import Container from "../components/Container";
 import { useFocusEffect } from "@react-navigation/native";
-import packageJson from '../package.json'
+import packageJson from "../package.json";
 
 export default function HomeScreen({ navigation }) {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   const loadConfig = useCallback(() => {
-    getItem("isInitialized").then((isInitialized) =>
-      setIsInitialized(Boolean(isInitialized))
-    );
+    const load = async () => {
+      try {
+        const isInitialized = await getItem("isInitialized");
+        setIsInitialized(Boolean(isInitialized));
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    load();
   }, []);
 
   useFocusEffect(loadConfig);

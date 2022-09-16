@@ -37,7 +37,7 @@ export const saveAddress = async (address: string) => {
 }
 
 // === vault ===
-export const getVault = async () => {
+export const getVaultId = async () => {
   const vault = await getItem("vault")
   return vault
 }

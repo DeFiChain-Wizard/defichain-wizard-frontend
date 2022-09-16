@@ -24,6 +24,7 @@ import VaultScreen from "./screens/botSetup/VaultScreen";
 
 import codePush from "react-native-code-push";
 import { CODE_PUSH_KEY } from "react-native-dotenv";
+import { AuthProvider } from "./context/AuthContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,35 +83,41 @@ export default function App() {
 
   return (
     <WhaleProvider>
-      <TailwindProvider>
-        <NavigationContainer theme={MyTheme}>
-          <SafeAreaProvider>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}
-            >
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="Wallet" component={WalletScreen} />
-              <Stack.Screen name="Seed" component={SeedScreen} />
-              <Stack.Screen name="Password" component={PasswordScreen} />
-              <Stack.Screen
-                name="Collateral"
-                component={CollateralRatioScreen}
-              />
-              <Stack.Screen name="Vault" component={VaultScreen} />
-              <Stack.Screen name="Confirm" component={ConfirmScreen} />
-              <Stack.Screen
-                name="LiquidityPool"
-                component={LiquidityPoolScreen}
-              />
-              <Stack.Screen name="Compounding" component={CompoundingScreen} />
-              <Stack.Screen name="Internal" component={HomeStack} />
-            </Stack.Navigator>
-            <StatusBar style="light" />
-          </SafeAreaProvider>
-        </NavigationContainer>
-      </TailwindProvider>
+      <AuthProvider>
+        <TailwindProvider>
+          <NavigationContainer theme={MyTheme}>
+            <SafeAreaProvider>
+              <Stack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                }}
+              >
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Wallet" component={WalletScreen} />
+                <Stack.Screen name="Seed" component={SeedScreen} />
+                <Stack.Screen name="Password" component={PasswordScreen} />
+                <Stack.Screen
+                  options={{ gestureEnabled: false }}
+                  name="Collateral"
+                  component={CollateralRatioScreen}
+                />
+                <Stack.Screen name="Vault" component={VaultScreen} />
+                <Stack.Screen name="Confirm" component={ConfirmScreen} />
+                <Stack.Screen
+                  name="LiquidityPool"
+                  component={LiquidityPoolScreen}
+                />
+                <Stack.Screen
+                  name="Compounding"
+                  component={CompoundingScreen}
+                />
+                <Stack.Screen name="Internal" component={HomeStack} />
+              </Stack.Navigator>
+              <StatusBar style="light" />
+            </SafeAreaProvider>
+          </NavigationContainer>
+        </TailwindProvider>
+      </AuthProvider>
     </WhaleProvider>
   );
 }

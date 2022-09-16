@@ -2,14 +2,8 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
-import {
-  getAddress,
-  getConfig,
-  getVault,
-  saveConfig,
-  saveVault,
-} from "../../utils/securestore";
-import { CustomMessage, Wallet } from "@defichainwizard/core";
+import { getAddress, getConfig, getVaultId } from "../../utils/securestore";
+import { Wallet } from "@defichainwizard/core";
 import Container from "../../components/Container";
 import { truncate } from "../../utils/helper";
 import { Formik } from "formik";
@@ -19,70 +13,72 @@ import Dropdown from "../../components/Dropdown";
 
 // formik
 interface FormValues {
-  vault: string;
+  vaultId: string;
 }
 
 // yup
 const formValidationSchema = yup.object().shape({
-  vault: yup.string().required("Vault is required").nullable(),
+  vaultId: yup.string().required("Vault is required").nullable(),
 });
 
-const VaultScreen = ({ navigation }) => {
-  const [vault, setVault] = useState<any>();
+const VaultScreen = ({ navigation, route }) => {
+  const [vaultId, setVaultId] = useState<any>();
   const [vaults, setVaults] = useState<any>();
   const [address, setAddress] = useState<string>();
-  const [isFocus, setIsFocus] = useState<any>();
-  const [config, setConfig] = useState<CustomMessage>();
 
-  const initialValues: FormValues = { vault };
+  const initialValues: FormValues = { vaultId };
 
   useEffect(() => {
-    getAddress().then((address) => setAddress(address));
-    getVault().then((vault) => setVault(vault));
+    const load = async () => {
+      try {
+        const address = await getAddress();
+        setAddress(address);
+        const config = await getConfig();
+        config && setVaultId(config.vaultId);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    load();
   }, []);
 
   const getVaults = async () => {
-    const wallet = await Wallet.build(address);
-    let tmpVaults = [];
-    await wallet
-      .getVaults()
-      .then((vaults) => {
-        vaults.map((vault) =>
-          tmpVaults.push({
-            label: truncate(vault.vaultId, 16, "..."),
-            value: vault.vaultId,
-          })
-        );
-        setVaults(tmpVaults);
-      })
-      .catch((error) => alert(error));
+    try {
+      const wallet = await Wallet.build(address);
+      let tmpVaults = [];
+      const vaults = await wallet.getVaults();
+      vaults.map((vault) =>
+        tmpVaults.push({
+          label: truncate(vault.vaultId, 16, "..."),
+          value: vault.vaultId,
+        })
+      );
+      setVaults(tmpVaults);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   useEffect(() => {
-    if (address) getVaults();
+    address && getVaults();
   }, [address]);
 
   useEffect(() => {
     const loadConfig = async () => {
       const config = await getConfig();
-      if (config) {
-        setConfig(config);
-        config.vaultId && setVault(config.vaultId);
-      }
+      if (!config) return;
+
+      const { vaultId } = config;
+      vaultId && setVaultId(vaultId);
     };
 
     loadConfig();
   }, []);
 
   const handleNextButton = async (values: FormValues) => {
-    const newConfig: CustomMessage = {
-      ...config,
-      vaultId: values.vault,
-    };
-
-    saveConfig(newConfig).then(() => {
-      navigation.navigate("Confirm");
-    });
+    const { vaultId } = values;
+    navigation.navigate("Confirm", { ...route.params, vaultId });
   };
 
   return (
@@ -107,13 +103,13 @@ const VaultScreen = ({ navigation }) => {
           <View>
             <Dropdown
               data={vaults}
-              value={values.vault}
-              onChange={(item) => setFieldValue("vault", item.value)}
+              value={values.vaultId}
+              onChange={(item) => setFieldValue("vaultId", item.value)}
               placeholder="Select Vault"
               searchPlaceholder="Search Vault"
               search={true}
             />
-            {!!errors.vault && <ValidationError error={errors.vault} />}
+            {!!errors.vaultId && <ValidationError error={errors.vaultId} />}
             <View className="flex flex-row justify-between mt-8">
               <Button
                 label="Back"

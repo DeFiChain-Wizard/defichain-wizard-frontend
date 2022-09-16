@@ -37,16 +37,10 @@ const PasswordScreen = ({ navigation, route }) => {
   const handleNextButton = async (values: FormValues) => {
     setLoading(true);
     Keyboard.dismiss();
-
-    setTimeout(async () => {
-      await Seed.build(seedPhraseWords, values.password)
-        .then(() => {
-          setItem("isInitialized", "true").then(() => setLoading(false));
-        })
-        .then(() => {
-          navigation.navigate("Internal");
-        });
-    }, 1000);
+    await Seed.build(seedPhraseWords, values.password);
+    await setItem("isInitialized", "true");
+    setLoading(false);
+    navigation.navigate("Internal");
   };
 
   return (

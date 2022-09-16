@@ -3,13 +3,11 @@ import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
-import { getConfig, saveConfig } from "../../utils/securestore";
-import { defaultConfig } from "../../constants/config";
+import { getConfig } from "../../utils/securestore";
 import Container from "../../components/Container";
 import { Formik } from "formik";
 import * as yup from "yup";
 import ValidationError from "../../components/ValidationError";
-import { CustomMessage } from "../../types/CustomMessage";
 
 // formik
 interface FormValues {
@@ -36,35 +34,31 @@ const formValidationSchema = yup.object().shape({
 const CollateralRatioScreen = ({ navigation }) => {
   const [keepMinRatio, setKeepMinRatio] = useState();
   const [keepMaxRatio, setKeepMaxRatio] = useState();
-  const [config, setConfig] = useState<CustomMessage>();
 
   const initialValues: FormValues = { keepMinRatio, keepMaxRatio };
 
   useEffect(() => {
-    const loadConfig = async () => {
+    const load = async () => {
       const config = await getConfig();
-      if (config) {
-        setConfig(config);
-        setKeepMinRatio(config.rules.keepMinRatio.toString());
-        setKeepMaxRatio(config.rules.keepMaxRatio.toString());
-      }
+      if (!config) return;
+
+      const { keepMinRatio, keepMaxRatio } = config.rules;
+      setKeepMinRatio(keepMinRatio.toString());
+      setKeepMaxRatio(keepMaxRatio.toString());
     };
 
-    loadConfig();
+    load();
   }, []);
 
   const handleNextButton = async (values: FormValues) => {
-    const initConfig: CustomMessage = config ? config : defaultConfig;
-    const newConfig: CustomMessage = {
-      ...initConfig,
-      rules: {
-        keepMaxRatio: Number(values.keepMaxRatio),
-        keepMinRatio: Number(values.keepMinRatio),
-      },
-    };
+    const { keepMinRatio, keepMaxRatio } = values;
 
-    await saveConfig(newConfig);
-    navigation.navigate("LiquidityPool");
+    navigation.navigate("LiquidityPool", {
+      rules: {
+        keepMinRatio: Number(keepMinRatio),
+        keepMaxRatio: Number(keepMaxRatio),
+      },
+    });
   };
 
   return (
@@ -123,7 +117,7 @@ const CollateralRatioScreen = ({ navigation }) => {
             </View>
             <View className="flex flex-row justify-between mt-8">
               <Button
-                label="Back"
+                label="Cancel"
                 type="secondary"
                 onPress={() => navigation.goBack()}
               />

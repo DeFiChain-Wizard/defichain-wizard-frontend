@@ -24,13 +24,25 @@ const WalletScreen = ({ navigation }) => {
   const initialValues: FormValues = { address };
 
   useEffect(() => {
-    getAddress().then((address) => {
-      address && setAddress(address);
-    });
+    const load = async () => {
+      try {
+        const address = await getAddress();
+        setAddress(address);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    load();
   }, []);
 
   const handleNextButton = async (values: FormValues) => {
-    saveAddress(values.address).then(navigation.navigate("Seed"));
+    try {
+      await saveAddress(values.address);
+      navigation.navigate("Seed");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
