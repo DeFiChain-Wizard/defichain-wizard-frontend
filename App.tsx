@@ -65,21 +65,6 @@ function HomeStack() {
 }
 
 export default function App() {
-  const onCodePushStateChanged = async (state: codePush.SyncStatus) => {
-    console.log("[CodePushStateChangeEvent]", state);
-    if (state === codePush.SyncStatus.UPDATE_INSTALLED) {
-      codePush.restartApp(true);
-    }
-  };
-
-  useEffect(() => {
-    codePush.notifyAppReady();
-    codePush.sync(
-      { deploymentKey: CODE_PUSH_KEY },
-      onCodePushStateChanged,
-      () => {}
-    );
-  }, []);
 
   return (
     <WhaleProvider>
