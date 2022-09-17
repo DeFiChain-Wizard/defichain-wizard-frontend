@@ -21,6 +21,7 @@ import ConfirmScreen from "./screens/botSetup/ConfirmScreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import VaultScreen from "./screens/botSetup/VaultScreen";
+import UserInstructionsScreen from "./screens/appSetup/UserInstructionsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -61,7 +62,6 @@ function HomeStack() {
 }
 
 export default function App() {
-
   return (
     <WhaleProvider>
       <TailwindProvider>
@@ -73,6 +73,10 @@ export default function App() {
               }}
             >
               <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen
+                name="Instructions"
+                component={UserInstructionsScreen}
+              />
               <Stack.Screen name="Wallet" component={WalletScreen} />
               <Stack.Screen name="Seed" component={SeedScreen} />
               <Stack.Screen name="Password" component={PasswordScreen} />
