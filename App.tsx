@@ -22,8 +22,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import VaultScreen from "./screens/botSetup/VaultScreen";
 
-import codePush from "react-native-code-push";
-import { CODE_PUSH_KEY } from "react-native-dotenv";
 import { AuthProvider } from "./context/AuthContext";
 
 const Stack = createNativeStackNavigator();
