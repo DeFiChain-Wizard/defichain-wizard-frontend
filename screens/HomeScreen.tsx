@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }) {
                 label="Set up your wallet"
                 className="mt-4"
                 onPress={() => {
-                  navigation.navigate("Wallet");
+                  navigation.navigate("Instructions");
                 }}
               />
             )}
