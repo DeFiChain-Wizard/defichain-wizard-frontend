@@ -76,6 +76,7 @@ export default function App() {
                 }}
               >
                 <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Instructions" component={UserInstructionsScreen} />
                 <Stack.Screen name="Wallet" component={WalletScreen} />
                 <Stack.Screen name="Seed" component={SeedScreen} />
                 <Stack.Screen name="Password" component={PasswordScreen} />
