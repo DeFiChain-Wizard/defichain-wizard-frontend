@@ -14,7 +14,6 @@ import RadioButton from "../../../components/RadioButton.tsx";
 import { CustomMessage } from "../../../types/CustomMessage";
 import Dropdown from "../../../components/Dropdown";
 import ModeDescription from "./ModeDescription";
-import { compoundingTokenList } from "../../../constants/compoundingToken";
 
 // formik
 interface FormValues {
@@ -46,7 +45,7 @@ const formValidationSchema = yup.object().shape({
   }),
 });
 
-const CompoundingScreen = ({ navigation }) => {
+const CompoundingScreen = ({ navigation, route }) => {
   const [reinvestThreshold, setReinvestThreshold] = useState<any>();
   const [loanToken, setLoanToken] = useState<string[]>();
   const [compoundingToken, setCompoundingToken] = useState<string[]>();
@@ -54,19 +53,23 @@ const CompoundingScreen = ({ navigation }) => {
   const [selectedLoanToken, setSelectedLoanToken] = useState<string>();
   const [selectedCompoundingToken, setSelectedCompoundingToken] =
     useState<string>();
-  const [config, setConfig] = useState<CustomMessage>();
+  const compoundingTokenList = ["DFI", "DUSD", "BTC", "ETH", "USDC", "USDT"];
   const client = useWhaleApiClient();
 
   const initialValues: FormValues = {
     reinvestThreshold,
     selectedLoanToken,
     selectedCompoundingToken,
-    mode,
+    mode: mode ? mode : "0",
   };
 
   const loadCompoundingToken = () => {
     let compoundingToken = [];
-    for (let index = 0; index < compoundingTokenList.length; index++) {
+    for (
+      let index = 0;
+      index < ["DFI", "DUSD", "BTC", "ETH", "USDC", "USDT"].length;
+      index++
+    ) {
       const token = compoundingTokenList[index];
       compoundingToken.push({ label: token, value: token });
     }
@@ -80,16 +83,13 @@ const CompoundingScreen = ({ navigation }) => {
 
   const loadConfig = async () => {
     const config: CustomMessage = await getConfig();
+    if (!config) return;
+
     const { mode, threshold, token } = config.compounding;
-
-    if (config) {
-      setConfig(config);
-      setReinvestThreshold(threshold.toString());
-
-      if (mode === 2) setSelectedLoanToken(token);
-      if (mode === 3) setSelectedCompoundingToken(token);
-      setMode(mode.toString());
-    }
+    setReinvestThreshold(threshold.toString());
+    if (mode === 2) setSelectedLoanToken(token);
+    if (mode === 3) setSelectedCompoundingToken(token);
+    setMode(mode.toString());
   };
 
   useEffect(() => {
@@ -111,17 +111,14 @@ const CompoundingScreen = ({ navigation }) => {
     if (mode === "2") token = selectedLoanToken;
     if (mode === "3") token = selectedCompoundingToken;
 
-    const newConfig: CustomMessage = {
-      ...config,
+    navigation.navigate("Vault", {
+      ...route.params,
       compounding: {
-        ...config.compounding,
         threshold: Number(reinvestThreshold),
         token,
         mode: Number(mode),
       },
-    };
-
-    saveConfig(newConfig).then(navigation.navigate("Vault"));
+    });
   };
 
   return (

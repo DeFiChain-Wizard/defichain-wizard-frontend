@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { DefichainIncome, Rewards } from "../../../types/defichainIncome";
+import { DefichainIncome, Rewards } from "../../../types/DefichainIncome";
 import RewardColumn from "./RewardColumn";
 
 type ForeCastProps = {
