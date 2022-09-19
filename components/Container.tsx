@@ -1,4 +1,9 @@
-import { View, Text, Dimensions } from "react-native";
+import {
+  View,
+  Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { RadialGradient, Defs, Ellipse, Stop } from "react-native-svg";

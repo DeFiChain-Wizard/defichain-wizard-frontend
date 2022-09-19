@@ -1,1 +1,0 @@
-export const compoundingTokenList = ["DFI", "DUSD", "BTC", "ETH", "USDC", "USDT"]

@@ -8,7 +8,6 @@ import {
 import React from "react";
 import Title from "../../../components/Title";
 import Button from "../../../components/Button";
-import { emptySeed } from "../../../constants/setup";
 import Container from "../../../components/Container";
 import SeedTextInput from "./SeedTextInput";
 import { Formik } from "formik";
@@ -26,6 +25,7 @@ const formValidationSchema = yup.object().shape({
 });
 
 const SeedScreen = ({ navigation }) => {
+  const emptySeed = Array(24).fill("");
   const initialValues: FormValues = { words: emptySeed };
 
   const handleNextButton = (values: FormValues) => {

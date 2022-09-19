@@ -12,9 +12,16 @@ const SettingsScreen = ({ navigation }) => {
   const [config, setConfig] = useState<CustomMessage>(null);
 
   const loadConfig = useCallback(() => {
-    getConfig().then((config) => {
-      setConfig(config);
-    });
+    const load = async () => {
+      try {
+        const config = await getConfig();
+        setConfig(config);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    load();
   }, []);
 
   useFocusEffect(loadConfig);
