@@ -35,10 +35,7 @@ const SeedScreen = ({ navigation }) => {
   };
 
   return (
-    <Container>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
+    <Container>     
         <ScrollView
           className="flex-1"
           showsVerticalScrollIndicator={false}
@@ -93,7 +90,7 @@ const SeedScreen = ({ navigation }) => {
             )}
           </Formik>
         </ScrollView>
-      </KeyboardAvoidingView>
+     
     </Container>
   );
 };
