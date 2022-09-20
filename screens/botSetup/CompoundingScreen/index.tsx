@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Title from "../../../components/Title";
 import Button from "../../../components/Button";
@@ -53,9 +53,15 @@ const CompoundingScreen = ({ navigation, route }) => {
   const [selectedLoanToken, setSelectedLoanToken] = useState<string>();
   const [selectedCompoundingToken, setSelectedCompoundingToken] =
     useState<string>();
+  const [keyboardBehavior, setKeyboardBehavior] = useState<"height" | "padding" | "position">("height")
+
   const compoundingTokenList = ["DFI", "DUSD", "BTC", "ETH", "USDC", "USDT"];
   const client = useWhaleApiClient();
-
+  
+  useEffect(() => {
+    setKeyboardBehavior((Platform.OS === "ios") ? "padding" : "height")
+  }, [])
+  
   const initialValues: FormValues = {
     reinvestThreshold,
     selectedLoanToken,
@@ -123,143 +129,152 @@ const CompoundingScreen = ({ navigation, route }) => {
 
   return (
     <Container>
-      <Title title="Compounding" />
-      <Formik
-        validationSchema={formValidationSchema}
-        initialValues={initialValues}
-        enableReinitialize={true}
-        validateOnChange={false}
-        validateOnBlur={false}
-        onSubmit={(values, actions) => {
-          handleNextButton(values);
-          actions.setSubmitting(false);
-        }}
+      <KeyboardAvoidingView
+        behavior={keyboardBehavior}
       >
-        {({ handleChange, handleSubmit, values, errors, setFieldValue }) => (
-          <View>
-            {/* threshold */}
-            <View className="flex space-y-4">
-              <ModeDescription text="Every" checked={values.mode !== "0"} />
-              <View className="flex">
-                <TextInput
-                  placeholder="20"
-                  className="w-full text-2xl font-semibold"
-                  value={values.reinvestThreshold}
-                  onChangeText={handleChange("reinvestThreshold")}
-                  keyboardType="numeric"
-                  contextMenuHidden={true}
-                  hasError={!!errors.reinvestThreshold}
-                  active={values.mode !== "0"}
-                />
-                <ModeDescription
-                  text="DFI"
-                  checked={values.mode !== "0"}
-                  className="text-2xl absolute right-0 top-2"
-                />
-              </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          <Title title="Compounding" />
+          <Formik
+            validationSchema={formValidationSchema}
+            initialValues={initialValues}
+            enableReinitialize={true}
+            validateOnChange={false}
+            validateOnBlur={false}
+            onSubmit={(values, actions) => {
+              handleNextButton(values);
+              actions.setSubmitting(false);
+            }}
+          >
+            {({ handleChange, handleSubmit, values, errors, setFieldValue }) => (
               <View>
-                <ModeDescription text="will be" checked={values.mode !== "0"} />
-              </View>
-            </View>
-            <RadioButton.Group
-              onValueChange={handleChange("mode")}
-              value={values.mode}
-            >
-              {/* add as collateral to vault */}
-              <View className="flex flex-row items-center mt-6">
-                <RadioButton.Item value="1" />
-                <ModeDescription
-                  className="ml-2"
-                  text="added as collateral to my vault."
-                  checked={values.mode === "1"}
-                />
-              </View>
-              {/* swapped into token */}
-              <View className="flex flex-row items-center space-x-2 mt-6">
-                <RadioButton.Item value="2" />
-                <ModeDescription
-                  className="ml-2"
-                  text="swapped into"
-                  checked={values.mode === "2"}
-                />
-                <Dropdown
-                  className="flex-1"
-                  data={loanToken}
-                  value={values.selectedLoanToken}
-                  onChange={(item: { value: string }) => {
-                    setFieldValue("selectedLoanToken", item.value);
-                  }}
-                  placeholder="Token"
-                  searchPlaceholder="Search Token"
-                  search={true}
-                  hasError={errors.selectedLoanToken && true}
-                  active={values.mode === "2"}
-                  disable={values.mode !== "2"}
-                />
-              </View>
-              {/* swapped into token and reinvest */}
-              <View className="flex mt-6">
-                <View className="flex flex-row items-center space-x-2">
-                  <RadioButton.Item value="3" />
-                  <ModeDescription
-                    className="ml-2"
-                    text="swapped into"
-                    checked={values.mode === "3"}
-                  />
-                  <Dropdown
-                    className="flex-1"
-                    data={compoundingToken}
-                    value={values.selectedCompoundingToken}
-                    onChange={(item: { value: string }) => {
-                      setFieldValue("selectedCompoundingToken", item.value);
-                    }}
-                    placeholder="Token"
-                    searchPlaceholder="Search Token"
-                    search={true}
-                    hasError={errors.selectedCompoundingToken && true}
-                    active={values.mode === "3"}
-                    disable={values.mode !== "3"}
-                  />
+                {/* threshold */}
+                <View className="flex space-y-4">
+                  <ModeDescription text="Every" checked={values.mode !== "0"} />
+                  <View className="flex">
+                    <TextInput
+                      placeholder="20"
+                      className="w-full text-2xl font-semibold"
+                      value={values.reinvestThreshold}
+                      onChangeText={handleChange("reinvestThreshold")}
+                      keyboardType="numeric"
+                      contextMenuHidden={true}
+                      hasError={!!errors.reinvestThreshold}
+                      active={values.mode !== "0"}
+                    />
+                    <ModeDescription
+                      text="DFI"
+                      checked={values.mode !== "0"}
+                      className="text-2xl absolute right-0 top-2"
+                    />
+                  </View>
+                  <View>
+                    <ModeDescription text="will be" checked={values.mode !== "0"} />
+                  </View>
                 </View>
-                <ModeDescription
-                  className="ml-8 mt-2"
-                  text="and added to vault."
-                  checked={values.mode === "3"}
-                />
-              </View>
-              <View className="flex flex-row items-center mt-6">
-                <RadioButton.Item value="0" />
-                <ModeDescription
-                  className="ml-2"
-                  text="Do nothing. I'll do it!"
-                  checked={values.mode === "0"}
-                />
-              </View>
-            </RadioButton.Group>
+                <RadioButton.Group
+                  onValueChange={handleChange("mode")}
+                  value={values.mode}
+                >
+                  {/* add as collateral to vault */}
+                  <View className="flex flex-row items-center mt-6">
+                    <RadioButton.Item value="1" />
+                    <ModeDescription
+                      className="ml-2"
+                      text="added as collateral to my vault."
+                      checked={values.mode === "1"}
+                    />
+                  </View>
+                  {/* swapped into token */}
+                  <View className="flex flex-row items-center space-x-2 mt-6">
+                    <RadioButton.Item value="2" />
+                    <ModeDescription
+                      className="ml-2"
+                      text="swapped into"
+                      checked={values.mode === "2"}
+                    />
+                    <Dropdown
+                      className="flex-1"
+                      data={loanToken}
+                      value={values.selectedLoanToken}
+                      onChange={(item: { value: string }) => {
+                        setFieldValue("selectedLoanToken", item.value);
+                      }}
+                      placeholder="Token"
+                      searchPlaceholder="Search Token"
+                      search={true}
+                      hasError={errors.selectedLoanToken && true}
+                      active={values.mode === "2"}
+                      disable={values.mode !== "2"}
+                    />
+                  </View>
+                  {/* swapped into token and reinvest */}
+                  <View className="flex mt-6">
+                    <View className="flex flex-row items-center space-x-2">
+                      <RadioButton.Item value="3" />
+                      <ModeDescription
+                        className="ml-2"
+                        text="swapped into"
+                        checked={values.mode === "3"}
+                      />
+                      <Dropdown
+                        className="flex-1"
+                        data={compoundingToken}
+                        value={values.selectedCompoundingToken}
+                        onChange={(item: { value: string }) => {
+                          setFieldValue("selectedCompoundingToken", item.value);
+                        }}
+                        placeholder="Token"
+                        searchPlaceholder="Search Token"
+                        search={true}
+                        hasError={errors.selectedCompoundingToken && true}
+                        active={values.mode === "3"}
+                        disable={values.mode !== "3"}
+                      />
+                    </View>
+                    <ModeDescription
+                      className="ml-8 mt-2"
+                      text="and added to vault."
+                      checked={values.mode === "3"}
+                    />
+                  </View>
+                  <View className="flex flex-row items-center mt-6">
+                    <RadioButton.Item value="0" />
+                    <ModeDescription
+                      className="ml-2"
+                      text="Do nothing. I'll do it!"
+                      checked={values.mode === "0"}
+                    />
+                  </View>
+                </RadioButton.Group>
 
-            {/* errors */}
-            <View className="mt-2">
-              {!!errors && !!errors.selectedCompoundingToken && (
-                <ValidationError error={errors.selectedCompoundingToken} />
-              )}
-              {!!errors && !!errors.selectedLoanToken && (
-                <ValidationError error={errors.selectedLoanToken} />
-              )}
-              {!!errors && !!errors.reinvestThreshold && (
-                <ValidationError error={errors.reinvestThreshold} />
-              )}
-            </View>
-            <View className="flex flex-row justify-between mt-8">
-              <Button
-                label="Back"
-                type="secondary"
-                onPress={() => navigation.goBack()}
-              />
-              <Button label="Next step" onPress={handleSubmit} />
-            </View>
-          </View>
-        )}
-      </Formik>
+                {/* errors */}
+                <View className="mt-2">
+                  {!!errors && !!errors.selectedCompoundingToken && (
+                    <ValidationError error={errors.selectedCompoundingToken} />
+                  )}
+                  {!!errors && !!errors.selectedLoanToken && (
+                    <ValidationError error={errors.selectedLoanToken} />
+                  )}
+                  {!!errors && !!errors.reinvestThreshold && (
+                    <ValidationError error={errors.reinvestThreshold} />
+                  )}
+                </View>
+                <View className="flex flex-row justify-between mt-8">
+                  <Button
+                    label="Back"
+                    type="secondary"
+                    onPress={() => navigation.goBack()}
+                  />
+                  <Button label="Next step" onPress={handleSubmit} />
+                </View>
+              </View>
+            )}
+          </Formik>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Container>
   );
 };

@@ -5,7 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../../../components/Title";
 import Button from "../../../components/Button";
 import Container from "../../../components/Container";
@@ -27,6 +27,11 @@ const formValidationSchema = yup.object().shape({
 const SeedScreen = ({ navigation }) => {
   const emptySeed = Array(24).fill("");
   const initialValues: FormValues = { words: emptySeed };
+  const [keyboardBehavior, setKeyboardBehavior] = useState<"height" | "padding" | "position">("height")
+
+  useEffect(() => {
+    setKeyboardBehavior((Platform.OS === "ios") ? "padding" : "height")
+  }, [])
 
   const handleNextButton = (values: FormValues) => {
     navigation.navigate("Password", {
@@ -37,7 +42,7 @@ const SeedScreen = ({ navigation }) => {
   return (
     <Container>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={keyboardBehavior}
       >
         <ScrollView
           className="flex-1"
