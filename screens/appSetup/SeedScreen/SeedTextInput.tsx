@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text } from "react-native";
 import TextInput from "../../../components/TextInput";
 
 type SeedTextInputProps = {
@@ -16,8 +16,7 @@ const SeedTextInput = ({
   onChangeText,
 }: SeedTextInputProps) => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <View
       className="flex flex-row w-[50%] py-0.5 justify-center items-center"
       key={wordIndex}
     >
@@ -34,7 +33,7 @@ const SeedTextInput = ({
         onChangeText={onChangeText}
         hasError={hasError}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
