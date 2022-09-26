@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
@@ -48,6 +48,7 @@ const WalletScreen = ({ navigation }) => {
   return (
     <Container>
       <Title title="Wallet" />
+      <ScrollView  keyboardShouldPersistTaps="handled">
       <Formik
         validationSchema={formValidationSchema}
         initialValues={initialValues}
@@ -61,14 +62,14 @@ const WalletScreen = ({ navigation }) => {
       >
         {({ handleChange, handleSubmit, values, errors }) => (
           <View>
-            <TextInput
-              value={values.address}
-              onChangeText={handleChange("address")}
-              placeholder="Your wallet address"
-              autoCapitalize="none"
-              className="text-center"
-              hasError={errors.address && true}
-            />
+              <TextInput
+                value={values.address}
+                onChangeText={handleChange("address")}
+                placeholder="Your wallet address"
+                autoCapitalize="none"
+                className="text-center"
+                hasError={errors.address && true}
+              />
             {!!errors && !!errors.address && (
               <ValidationError error={errors.address} />
             )}
@@ -83,6 +84,7 @@ const WalletScreen = ({ navigation }) => {
           </View>
         )}
       </Formik>
+      </ScrollView>
     </Container>
   );
 };
