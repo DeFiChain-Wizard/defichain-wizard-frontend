@@ -67,12 +67,11 @@
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
-// #if DEBUG
-//   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
-// #else
-  // return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-  return [CodePush bundleURL];
-// #endif
+  #if DEBUG
+    return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
+  #else
+    return [CodePush bundleURL];
+  #endif
 }
 
 // Linking API

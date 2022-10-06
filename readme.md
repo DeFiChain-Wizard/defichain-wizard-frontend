@@ -6,8 +6,10 @@
 ## installation
 - run ```yarn```
 
-# Debug
+# Debug with Expo
 - run ```yarn android``` or ```yarn ios```
+# Debug with React Native direct
+- run ```yarn android:rn``` or ```yarn ios:rn```
 
 # Deploy
 depending on which stage and device you use you can deploy a new version of the app by one command

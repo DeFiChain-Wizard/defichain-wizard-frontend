@@ -1,14 +1,16 @@
 {
   "name": "defichain-wizard",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
+    "android:rn": "react-native run-ios",
     "android:deploy-prod": "appcenter codepush release-react -a nspagency/c_dfi -d production -m",
-    "android:deploy-int": "appcenter codepush release-react -a nspagency/c_dfi -d integration -m",
+    "android:deploy-dev": "appcenter codepush release-react -a nspagency/c_dfi -d develop -m",
     "ios": "expo run:ios",
+    "ios:rn": "react-native run-ios",
     "ios:deploy-prod": "appcenter codepush release-react -a nspagency/c_dfi-1 -d production -m",
-    "ios:deploy-int": "appcenter codepush release-react -a nspagency/c_dfi-1 -d integration -m",
+    "ios:deploy-dev": "appcenter codepush release-react -a nspagency/c_dfi-1 -d develop -m",
     "web": "expo start --web",
     "eject": "expo eject",
     "postinstall": "./node_modules/.bin/rn-nodeify --install buffer,events,process,stream,util,inherits,fs,path,assert --hack;"

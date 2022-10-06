@@ -35,14 +35,12 @@ const SeedScreen = ({ navigation }) => {
   };
 
   return (
-    <Container>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
+    <Container>     
         <ScrollView
           className="flex-1"
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
           <Title title="Seed" />
           <Text className="text-white text-sm text-center mb-6">
@@ -61,39 +59,42 @@ const SeedScreen = ({ navigation }) => {
           >
             {({ handleSubmit, values, errors, setFieldValue }) => (
               <View>
-                <View className="flex flex-row w-full flex-wrap">
-                  {[...Array(24)].map((_number, index) => (
-                    <SeedTextInput
-                      key={index}
-                      onChangeText={(item) => {
-                        setFieldValue(`words[${index}]`, item);
-                      }}
-                      defaultValue={values.words[index]}
-                      wordIndex={index}
-                      hasError={
-                        errors && errors.words && errors.words[index]
-                          ? true
-                          : false
-                      }
-                    />
-                  ))}
-                </View>
-                {!!errors.words && (
-                  <ValidationError error="All fields must be filled" />
-                )}
-                <View className="flex flex-row justify-between mt-8 mb-16">
-                  <Button
-                    label="Back"
-                    type="secondary"
-                    onPress={() => navigation.goBack()}
-                  />
-                  <Button label="Next step" onPress={handleSubmit} />
-                </View>
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === "ios" ? "padding" : "height"}
+                >
+                  <View className="flex flex-row w-full flex-wrap">
+                    {[...Array(24)].map((_number, index) => (
+                      <SeedTextInput
+                        key={index}
+                        onChangeText={(item) => {
+                          setFieldValue(`words[${index}]`, item);
+                        }}
+                        defaultValue={values.words[index]}
+                        wordIndex={index}
+                        hasError={
+                          errors && errors.words && errors.words[index]
+                            ? true
+                            : false
+                        }
+                      />
+                    ))}
+                  </View>
+                  {!!errors.words && (
+                    <ValidationError error="All fields must be filled" />
+                    )}
+                  <View className="flex flex-row justify-between mt-8 mb-16">
+                    <Button
+                      label="Back"
+                      type="secondary"
+                      onPress={() => navigation.goBack()}
+                      />
+                    <Button label="Next step" onPress={handleSubmit} />
+                  </View>
+                </KeyboardAvoidingView>
               </View>
             )}
           </Formik>
         </ScrollView>
-      </KeyboardAvoidingView>
     </Container>
   );
 };
