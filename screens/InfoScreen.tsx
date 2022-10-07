@@ -12,33 +12,23 @@ const InfoScreen = ({ navigation }) => {
   const [address, setAddress] = useState<any>(null);
 
   const loadConfig = useCallback(() => {
-    const load = async () => {
-      try {
-        const config = await getConfig();
-        setConfig(config);
-        const address = await getAddress();
-        setAddress(address);
-      } catch (error) {
-        alert(error);
-      }
-    };
+    getConfig().then((config) => {
+      setConfig(config);
+    });
 
-    load();
+    getAddress().then((vault) => {
+      setAddress(vault);
+    });
   }, []);
 
   useFocusEffect(loadConfig);
 
-  const onDeleteHandler = async () => {
-    try {
-      await deleteItem("config");
-      await deleteItem("vault");
-      await deleteItem("isSetUp");
-      await deleteItem("isInitialized");
-      await deleteItem("address");
-      navigation.navigate("Home");
-    } catch (error) {
-      alert(error);
-    }
+  const onDeleteHandler = () => {
+    deleteItem("config");
+    deleteItem("vault");
+    deleteItem("isSetUp");
+    deleteItem("isInitialized");
+    deleteItem("address").then(navigation.navigate("Home"));
   };
 
   return (

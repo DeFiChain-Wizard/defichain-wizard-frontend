@@ -24,7 +24,6 @@ const TextInput = ({
       }`}
       placeholder={placeholder ? placeholder : null}
       placeholderTextColor={active ? "#838383" : "#4d4d4d"}
-      editable={active}
       {...rest}
     />
   );

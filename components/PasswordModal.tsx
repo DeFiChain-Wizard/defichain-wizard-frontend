@@ -25,7 +25,7 @@ const PasswordModal = ({
     <Modal visible={visible}>
       {!!description && (
         <View className="items-center">
-          <Text className="text-white text-center text-lg font-semibold">
+          <Text className="text-white self-centeer text-lg font-semibold">
             {description}
           </Text>
         </View>

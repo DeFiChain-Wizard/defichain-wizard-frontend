@@ -1,24 +1,30 @@
 import { View, Text, Keyboard, TouchableOpacity } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { Seed, Wallet } from "@defichainwizard/core";
-import { getAddress, getConfig, saveConfig } from "../../utils/securestore";
+import {
+  getAddress,
+  getConfig,
+  getItem,
+  saveConfig,
+} from "../../utils/securestore";
 import PasswordModal from "../../components/PasswordModal";
 import LoadingIndicator from "../../components/LoadingIndicator";
+import { ERROR_MSG } from "../../constants/messages";
 import Container from "../../components/Container";
 import { useFocusEffect } from "@react-navigation/native";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
 import ScreenItem from "../../components/ScreenItem";
 import { useWhaleApiClient } from "../../context/WhaleContext";
-import { getDataFromDefichainIncome } from "../../utils/defichainIncome";
+import { fetchDefichainIncome } from "../../utils/defichainIncome";
 import Forecast from "./Forecast";
 import { fetchDFIUSDPrice } from "../../utils/whale";
-import { useAuthContext } from "../../context/AuthContext";
-import { mapPauseToBoolean, portfolioValue } from "./utils";
+import { portfolioValue } from "../../utils/calc";
 
 const DashboardScreen = ({ navigation }) => {
-  const { isAuthenticated, setIsAuthenticated } = useAuthContext();
   const [address, setAddress] = useState<string>("");
+  const [balance, setBalance] = useState<Number>();
+  const [isSetUp, setIsSetUp] = useState(false);
   const [config, setConfig] = useState<any>(null);
   const [defichainIncome, setDefichainIncome] = useState<any>(null);
 
@@ -31,91 +37,67 @@ const DashboardScreen = ({ navigation }) => {
 
   const client = useWhaleApiClient();
 
-  const loadConfig = useCallback(() => {
-    const load = async () => {
-      try {
-        const address = await getAddress();
-        setAddress(address);
-        const config = await getConfig();
-        setConfig(config);
-      } catch (error) {
-        alert(error);
-      }
-    };
+  const getBalance = async (address: string) => {
+    const wallet = await Wallet.build(address);
+    await wallet.getUTXOBalance().then((balance) => setBalance(balance));
+  };
 
-    load();
+  const mapPauseToBoolean = (value: number) => {
+    let state: boolean;
+    if (value === 0) state = false;
+    if (value === -1) state = true;
+    return state;
+  };
+
+  const loadConfig = useCallback(() => {
+    getAddress().then((address) => setAddress(address));
+    getItem("isSetUp").then((isSetUp) => setIsSetUp(Boolean(isSetUp)));
+    getConfig().then((config) => {
+      setConfig(config);
+    });
   }, []);
 
   useFocusEffect(loadConfig);
 
   useEffect(() => {
-    const handleDefiChainIncome = async () => {
-      try {
-        const data = await getDataFromDefichainIncome(address);
-        setDefichainIncome(data);
-      } catch (error) {
-        alert(error);
-      }
-    };
-
-    address && handleDefiChainIncome();
+    if (address) getBalance(address);
   }, [address]);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const price = await fetchDFIUSDPrice(client);
-        setDfiPrice(price);
-      } catch (error) {
-        alert(error);
-      }
-    };
+    if (address)
+      fetchDefichainIncome(address).then((data) => setDefichainIncome(data));
+  }, [address]);
 
-    load();
+  useEffect(() => {
+    fetchDFIUSDPrice(client).then((price) => setDfiPrice(price));
   }, []);
 
-  const handleSleep = async () => {
-    const newConfig = {
-      ...config,
-      pause: config.pause === 0 ? -1 : 0,
-    };
+  const handleFinish = async () => {
+    if (address && password && config) {
+      const newConfig = {
+        ...config,
+        pause: config.pause === 0 ? -1 : 0,
+      };
 
-    setModalVisible(false);
-    setLoading(true);
-    Keyboard.dismiss();
-
-    try {
-      const wallet = await Wallet.build(address);
-      const seed = await Seed.getSeedFromEncryptedString();
-      await wallet.sendTransaction(newConfig, seed, password);
-      await saveConfig(newConfig);
-      setConfig(newConfig);
-    } catch (error) {
-      alert(error);
-    }
-    setLoading(false);
-  };
-
-  const findLastConfig = async () => {
-    const wallet = await Wallet.build(address);
-    const seed = await Seed.getSeedFromEncryptedString();
-    const encryptedSeed = await seed.asArray(password);
-    const config = await wallet.findLastWizardConfiguration(encryptedSeed);
-    return config;
-  };
-
-  const handleSync = async () => {
-    if (address) {
-      try {
-        const config = await findLastConfig();
-        setIsAuthenticated(true);
-        setModalVisible(false);
-        await saveConfig(config);
-        setConfig(config);
-        setLoading(false);
-      } catch (error) {
-        alert(error);
-      }
+      setModalVisible(false);
+      setLoading(true);
+      Keyboard.dismiss();
+      setTimeout(async () => {
+        const wallet = await Wallet.build(address);
+        const mySeed = await Seed.getSeedFromEncryptedString();
+        await wallet
+          .sendTransaction(newConfig, mySeed, password)
+          .then(() => {
+            saveConfig(newConfig).then(() => {
+              setConfig(newConfig);
+              setLoading(false);
+            });
+          })
+          .catch(() => {
+            setLoading(false);
+            alert(ERROR_MSG);
+          });
+      }, 1000);
     }
   };
 
@@ -123,6 +105,7 @@ const DashboardScreen = ({ navigation }) => {
     <Container>
       <View className="flex-1">
         <Title title="Dashboard" />
+
         {/* portfolio */}
         <ScreenItem
           label={
@@ -188,7 +171,7 @@ const DashboardScreen = ({ navigation }) => {
         )}
 
         {/* show create bot button if not configured */}
-        {!config && (
+        {!isSetUp && (
           <View className="flex-1 items-center justify-end mb-40 space-y-4">
             <Text className="text-[#838383]">You have not set up your bot</Text>
             <Button
@@ -201,16 +184,8 @@ const DashboardScreen = ({ navigation }) => {
         <PasswordModal
           visible={modalVisible}
           onCancel={setModalVisible}
-          onConfirm={handleSleep}
+          onConfirm={handleFinish}
           onChangePassword={setPassword}
-        />
-        <PasswordModal
-          visible={!isAuthenticated && !!config}
-          onCancel={setModalVisible}
-          onConfirm={handleSync}
-          onChangePassword={setPassword}
-          showCancelButton={false}
-          description="To resync the configuration please enter your password"
         />
       </View>
       {loading && <LoadingIndicator />}

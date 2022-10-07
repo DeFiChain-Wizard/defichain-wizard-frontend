@@ -23,8 +23,6 @@ import { StatusBar } from "expo-status-bar";
 import VaultScreen from "./screens/botSetup/VaultScreen";
 import UserInstructionsScreen from "./screens/appSetup/UserInstructionsScreen";
 
-import { AuthProvider } from "./context/AuthContext";
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -66,7 +64,6 @@ function HomeStack() {
 export default function App() {
   return (
     <WhaleProvider>
-      <AuthProvider>
         <TailwindProvider>
           <NavigationContainer theme={MyTheme}>
             <SafeAreaProvider>
@@ -101,7 +98,6 @@ export default function App() {
             </SafeAreaProvider>
           </NavigationContainer>
         </TailwindProvider>
-      </AuthProvider>
     </WhaleProvider>
   );
 }
