@@ -23,6 +23,7 @@ const DashboardScreen = ({ navigation }) => {
   const [defichainIncome, setDefichainIncome] = useState<any>(null);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [resyncModalVisible, setResyncModalVisible] = useState(true)
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -205,11 +206,11 @@ const DashboardScreen = ({ navigation }) => {
           onChangePassword={setPassword}
         />
         <PasswordModal
-          visible={!isAuthenticated && !!config}
-          onCancel={setModalVisible}
+          visible={!isAuthenticated && !!config && resyncModalVisible}
+          onCancel={setResyncModalVisible}
           onConfirm={handleSync}
           onChangePassword={setPassword}
-          showCancelButton={false}
+          showCancelButton={true}
           description="To resync the configuration please enter your password"
         />
       </View>
