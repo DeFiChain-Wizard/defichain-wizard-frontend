@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Reward } from "../../../types/DefichainIncome";
+import { Reward } from "../../../types/defichainIncome";
 import RewardItem from "./RewardItem";
 
 type RewardColumnProps = {

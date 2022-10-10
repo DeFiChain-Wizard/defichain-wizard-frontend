@@ -4,12 +4,13 @@ import Title from "../../components/Title";
 import Button from "../../components/Button";
 import { useWhaleApiClient } from "../../context/WhaleContext";
 import { fetchLoanTokens } from "../../utils/whale";
-import { getConfig } from "../../utils/securestore";
+import { getConfig, saveConfig } from "../../utils/securestore";
 import Container from "../../components/Container";
 import { Formik } from "formik";
 import * as yup from "yup";
 import ValidationError from "../../components/ValidationError";
 import Dropdown from "../../components/Dropdown";
+import { CustomMessage } from "../../types/CustomMessage";
 
 // formik
 interface FormValues {
@@ -21,10 +22,13 @@ const formValidationSchema = yup.object().shape({
   selectedLoanToken: yup.string().required("Mint token is required"),
 });
 
-const LiquidityPoolScreen = ({ navigation, route }) => {
+const LiquidityPoolScreen = ({ navigation }) => {
   const [loanToken, setLoanToken] = useState<any>();
   const [selectedLoanToken, setSelectedLoanToken] = useState<any>();
+  const [config, setConfig] = useState<CustomMessage>();
+
   const client = useWhaleApiClient();
+
   const initialValues: FormValues = { selectedLoanToken };
 
   const loadLoanTokens = async () => {
@@ -34,8 +38,10 @@ const LiquidityPoolScreen = ({ navigation, route }) => {
 
   const loadConfig = async () => {
     const config = await getConfig();
-    if (!config) return;
-    setSelectedLoanToken(Object.keys(config.poolpairs)[0]);
+    if (config) {
+      setConfig(config);
+      setSelectedLoanToken(Object.keys(config.poolpairs)[0]);
+    }
   };
 
   useEffect(() => {
@@ -44,11 +50,15 @@ const LiquidityPoolScreen = ({ navigation, route }) => {
   }, []);
 
   const handleNextButton = async (values: FormValues) => {
-    const { selectedLoanToken } = values;
+    const newConfig: CustomMessage = {
+      ...config,
+      poolpairs: {
+        [values.selectedLoanToken]: 100,
+      },
+    };
 
-    navigation.navigate("Compounding", {
-      ...route.params,
-      poolpairs: { [selectedLoanToken]: 100 },
+    saveConfig(newConfig).then(() => {
+      navigation.navigate("Compounding");
     });
   };
 

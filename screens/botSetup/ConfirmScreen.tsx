@@ -2,16 +2,15 @@ import { View, Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
-import { getAddress, saveConfig } from "../../utils/securestore";
+import { getAddress, getConfig, setItem } from "../../utils/securestore";
 import { Wallet, Seed } from "@defichainwizard/core";
 import PasswordModal from "../../components/PasswordModal";
 import LoadingIndicator from "../../components/LoadingIndicator";
+import { ERROR_MSG } from "../../constants/messages";
 import ConfigSummary from "../../components/ConfigSummary";
 import Container from "../../components/Container";
-import { useAuthContext } from "../../context/AuthContext";
 
-const ConfirmScreen = ({ navigation, route }) => {
-  const { setIsAuthenticated } = useAuthContext();
+const ConfirmScreen = ({ navigation }) => {
   const [address, setAddress] = useState<any>();
   const [config, setConfig] = useState<any>();
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,39 +18,29 @@ const ConfirmScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const address = await getAddress();
-        setAddress(address);
-        const newConfig = {
-          ...route.params,
-          pause: 0,
-          version: "1.0",
-        };
-        setConfig(newConfig);
-      } catch (error) {
-        alert(error);
-      }
-    };
-
-    load();
+    getAddress().then((address) => setAddress(address));
+    getConfig().then((config) => setConfig(config));
   }, []);
 
   const handleFinish = async () => {
-    setModalVisible(false);
-    setLoading(true);
     Keyboard.dismiss();
-
-    try {
-      const wallet = await Wallet.build(address);
-      const seed = await Seed.getSeedFromEncryptedString();
-      await wallet.sendTransaction(config, seed, password);
-      await saveConfig(config);
-      setIsAuthenticated(true);
-      navigation.navigate("Internal");
-    } catch (error) {
-      setLoading(false);
-      alert(error);
+    if (address && password) {
+      setModalVisible(false);
+      setLoading(true);
+      Keyboard.dismiss();
+      setTimeout(async () => {
+        const wallet = await Wallet.build(address);
+        const mySeed = await Seed.getSeedFromEncryptedString();
+        await wallet
+          .sendTransaction(config, mySeed, password)
+          .then(() => {
+            setItem("isSetUp", "true").then(navigation.navigate("Internal"));
+          })
+          .catch(() => {
+            setLoading(false);
+            alert(ERROR_MSG);
+          });
+      }, 1000);
     }
   };
 
